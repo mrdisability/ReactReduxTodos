@@ -1,4 +1,5 @@
 import { todosActions } from './todos-slice';
+import { uiActions } from './ui-slice';
 
 //https://practicereact-7a9bd-default-rtdb.firebaseio.com/toDos
 
@@ -30,14 +31,57 @@ export const fetchTodosData = () => {
         })
       );
     } catch (error) {
-    //   dispatch(
-    //     uiActions.showNotification({
-    //       status: 'error',
-    //       title: 'Error!',
-    //       message: 'Fetching Todos data failed!',
-    //     })
-    //   );
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error!',
+          message: 'Fetching todos data failed!',
+        })
+      );
     console.log(error);
+    }
+  };
+};
+
+export const createTodo = (todoData) => {
+  return async (dispatch) => {
+
+    const sendRequest = async () => {
+      const response = await fetch(
+        `http://127.0.0.1:3000/todos`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            { 
+              todo: todoData.todo,
+              completed: todoData.completed 
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Created todo failed');
+      }
+    };
+
+    try {
+      await sendRequest();
+      console.log("Created successfully");
+
+      dispatch(
+        fetchTodosData(),
+      );
+
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Success',
+          message: 'Created todo successfully',
+        })
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 };
@@ -63,7 +107,15 @@ export const deleteTodo = (id) => {
       console.log("Deleted successfully");
 
       dispatch(
-        todosActions.deleteTodo(id)
+        todosActions.deleteTodo(id),
+      );
+
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Success',
+          message: 'Deleted todo successfully',
+        })
       );
     } catch (error) {
       console.log(error);

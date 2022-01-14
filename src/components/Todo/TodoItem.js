@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 
 import { todosActions } from '../../store/todos-slice';
 import { deleteTodo } from '../../store/todos-actions';
+import { Link } from 'react-router-dom';
 
 const TodoItem = (props) => {
   const dispatch = useDispatch();
@@ -32,15 +33,15 @@ const TodoItem = (props) => {
 
   return (
     <li style={{cursor: "pointer"}} className="list-group-item clearfix">
-        {todo}
+      <Link to={`/todos/${id}`}>{todo}</Link>
 
         <div style={{float: "right"}}>
-          <button style={{marginLeft: "10px"}} className="btn btn-secondary">Edit</button>
+          {/* <Link to={`/todos/${id}`} style={{marginLeft: "10px"}} className="btn btn-secondary">
+            Edit
+          </Link> */}
 
           <button style={{marginLeft: "10px"}} className="btn btn-danger" onClick={deleteTodoHandler}>Delete</button>
         </div>
-
-        {/* <button className="btn btn-primary" onClick={addTodoHandler}>Add</button> */}
     </li>
   );
 };
