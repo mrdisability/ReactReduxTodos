@@ -33,7 +33,9 @@ const TodoItem = (props) => {
 
   return (
     <li style={{cursor: "pointer"}} className="list-group-item clearfix">
-      <Link to={`/todos/${id}`}>{todo}</Link>
+      <Link to={`/todos/${id}`}>{todo}</Link> 
+      {completed ? <span style={{marginLeft: "10px"}} class="badge bg-success">Completed</span>
+        : <span style={{marginLeft: "10px"}} class="badge bg-danger">Incomplete</span>}
 
         <div style={{float: "right"}}>
           {/* <Link to={`/todos/${id}`} style={{marginLeft: "10px"}} className="btn btn-secondary">

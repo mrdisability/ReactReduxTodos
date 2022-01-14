@@ -122,3 +122,41 @@ export const deleteTodo = (id) => {
     }
   };
 };
+
+export const getTodo = (id) => {
+  return async (dispatch) => {
+    const fetchData = async () => {
+      const response = await fetch(
+        `http://127.0.0.1:3000/todos/${id}`
+      );
+
+      if (!response.ok) {
+        throw new Error('Could not fetch todo!');
+      }
+
+      const data = await response.json();
+
+      //console.log(data);
+
+      return data;
+    };
+
+    try {
+      const todoData = await fetchData();
+      dispatch(
+        todosActions.getTodo({
+          todo: todoData || null,
+        })
+      );
+    } catch (error) {
+      dispatch(
+        uiActions.showNotification({
+          status: 'error',
+          title: 'Error!',
+          message: 'Fetching todo failed!',
+        })
+      );
+    console.log(error);
+    }
+  };
+};
