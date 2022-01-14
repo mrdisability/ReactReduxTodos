@@ -13,7 +13,9 @@ const TodoItem = (props) => {
   // };
 
   const deleteTodoHandler = () => {
-    dispatch(deleteTodo(id));
+    if (window.confirm("Delete this todo?")) {
+      dispatch(deleteTodo(id));
+    }
   };
 
   // const addTodoHandler = () => {
@@ -29,9 +31,14 @@ const TodoItem = (props) => {
   // };
 
   return (
-    <li className="list-group-item">
-        {todo} {completed.toString()} 
-        <button className="btn btn-danger" onClick={deleteTodoHandler}>Delete</button>
+    <li style={{cursor: "pointer"}} className="list-group-item clearfix">
+        {todo}
+
+        <div style={{float: "right"}}>
+          <button style={{marginLeft: "10px"}} className="btn btn-secondary">Edit</button>
+
+          <button style={{marginLeft: "10px"}} className="btn btn-danger" onClick={deleteTodoHandler}>Delete</button>
+        </div>
 
         {/* <button className="btn btn-primary" onClick={addTodoHandler}>Add</button> */}
     </li>
