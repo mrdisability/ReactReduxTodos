@@ -147,7 +147,7 @@ export const updateTodo = (todoData, id) => {
 
     try {
       await sendRequest();
-      console.log("Updated successfully");
+      //console.log("Updated successfully");
 
       localStorage.setItem('ID', id);
       localStorage.setItem('TODO', todoData.todo);

@@ -1,0 +1,69 @@
+import axios from 'axios';
+
+const postData = () => {
+    axios.post(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData`, {
+        firstName,
+        lastName,
+        checkbox
+    })
+}
+
+useEffect(() => {
+    axios.get(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData`)
+        .then((response) => {
+            setAPIData(response.data);
+        })
+}, [])
+
+<Table.Body>
+  {APIData.map((data) => {
+     return (
+       <Table.Row>
+          <Table.Cell>{data.firstName}</Table.Cell>
+           <Table.Cell>{data.lastName}</Table.Cell>
+           <Table.Cell>{data.checkbox ? 'Checked' : 'Unchecked'}</Table.Cell>
+        </Table.Row>
+   )})}
+</Table.Body>
+
+const setData = (data) => {
+        let { id, firstName, lastName, checkbox } = data;
+        localStorage.setItem('ID', id);
+        localStorage.setItem('First Name', firstName);
+        localStorage.setItem('Last Name', lastName);
+        localStorage.setItem('Checkbox Value', checkbox)
+}
+
+useEffect(() => {
+        setID(localStorage.getItem('ID'))
+        setFirstName(localStorage.getItem('First Name'));
+        setLastName(localStorage.getItem('Last Name'));
+        setCheckbox(localStorage.getItem('Checkbox Value'))
+}, []);
+
+const updateAPIData = () => {
+    axios.put(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData/${id}`, {
+        firstName,
+         lastName,
+         checkbox
+	})
+}
+
+const onDelete = (id) => {
+  axios.delete(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData/${id}`)
+}
+
+const getData = () => {
+    axios.get(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData`)
+        .then((getData) => {
+             setAPIData(getData.data);
+         })
+}
+
+const onDelete = (id) => {
+        axios.delete(`https://60fbca4591156a0017b4c8a7.mockapi.io/fakeData/${id}`)
+     .then(() => {
+        getData();
+    })
+}
+

@@ -41,7 +41,7 @@ const EditTodo = (props) => {
           completed: enteredCompleted,
         };
 
-        console.log(todoData);
+        //console.log(todoData);
 
         dispatch(updateTodo(todoData, id));
         
