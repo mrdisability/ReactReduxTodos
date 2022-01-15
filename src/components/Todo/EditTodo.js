@@ -8,31 +8,31 @@ const EditTodo = (props) => {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    useEffect(() => {
-        dispatch(getTodo(id));
-      }, [dispatch]);
+    // useEffect(() => {
+    //     dispatch(getTodo(id));
 
-    const todoItem = useSelector((state) => state.todos.todo);
+    //     //console.log("Get todo");
+    //   }, [dispatch]);
 
-    //console.log(todoItem);
+    //   const todoItem = useSelector((state) => state.todos.todo);
+
+      //todoItem ? todoItem.todo.todo : ""
 
     const [enteredTodo, setEnteredTodo] = useState("");
     const [enteredCompleted, setEnteredCompleted] = useState(false);
 
-    // if (todoItem) {
-    //     setEnteredTodo(todoItem.todo.todo);
-    //     setEnteredCompleted(todoItem.todo.completed);
-    // }
+    useEffect(() => {
+        setEnteredTodo(localStorage.getItem('TODO'));
+        setEnteredCompleted(localStorage.getItem('COMPLETED'));
+    }, []);
 
     const todoChangeHandler = (event) => {
         setEnteredTodo(event.target.value);
       };
     
       const completedChangeHandler = (event) => {
-        setEnteredCompleted(event.target.value);
+        setEnteredCompleted(event.target.checked);
       };
-
-    //console.log(todoItem);
 
     const deleteTodoHandler = () => {
         if (window.confirm("Delete this todo?")) {
@@ -45,7 +45,7 @@ const EditTodo = (props) => {
     
         const todoData = {
           todo: enteredTodo,
-          completed: false,
+          completed: enteredCompleted,
         };
 
         console.log(todoData);
@@ -62,8 +62,6 @@ const EditTodo = (props) => {
             <button style={{float: "right"}} className="btn btn-danger" onClick={deleteTodoHandler}>Delete</button>
             <h2>Edit Todo</h2>
 
-            {/* <h2>{id}</h2> */}
-
             <form onSubmit={submitHandler}>
                 <div class="mb-3">
                     <label htmlFor="todo" className="form-label">Todo</label>
@@ -74,7 +72,6 @@ const EditTodo = (props) => {
                 </div>
                 <div className="form-check">
                     <input className="form-check-input" type="checkbox"
-                        value={enteredCompleted} 
                         checked={enteredCompleted}
                         onChange={completedChangeHandler}  id="completed"/>
                     <label className="form-check-label" htmlFor="completed">

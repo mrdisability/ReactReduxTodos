@@ -31,9 +31,19 @@ const TodoItem = (props) => {
   //   );
   // };
 
+  const setData = (data) => {
+    //console.log(data);
+
+    let { id, todo, completed } = data;
+    console.log(`${id} ${todo} ${completed}`)
+    localStorage.setItem('ID', id);
+    localStorage.setItem('TODO', todo);
+    localStorage.setItem('COMPLETED', completed);
+}
+
   return (
     <li style={{cursor: "pointer"}} className="list-group-item clearfix">
-      <Link to={`/todos/${id}`}>{todo}</Link> 
+      <Link to={`/todos/${id}`} onClick={() => setData(props.todo)}>{todo}</Link> 
       {completed ? <span style={{marginLeft: "10px"}} class="badge bg-success">Completed</span>
         : <span style={{marginLeft: "10px"}} class="badge bg-danger">Incomplete</span>}
 
