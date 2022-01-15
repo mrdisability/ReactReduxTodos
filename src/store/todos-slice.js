@@ -4,7 +4,6 @@ const todosSlice = createSlice({
   name: 'todos',
   initialState: {
     todos: [],
-    todo: null
   },
   reducers: {
     replaceTodos(state, action) {
@@ -25,9 +24,9 @@ const todosSlice = createSlice({
         completed: newTodo.completed,
       });
     },
-    getTodo(state, action) {
-      state.todo = action.payload;
-    },
+    // getTodo(state, action) {
+    //   state.todo = action.payload;
+    // },
   },
 });
 

@@ -35,7 +35,7 @@ const TodoItem = (props) => {
     //console.log(data);
 
     let { id, todo, completed } = data;
-    console.log(`${id} ${todo} ${completed}`)
+    // console.log(`${id} ${todo} ${completed}`)
     localStorage.setItem('ID', id);
     localStorage.setItem('TODO', todo);
     localStorage.setItem('COMPLETED', completed);

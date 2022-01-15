@@ -1,29 +1,20 @@
 import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteTodo } from '../../store/todos-actions';
-import { getTodo } from '../../store/todos-actions';
+import { useDispatch } from 'react-redux';
+import { deleteTodo, updateTodo } from '../../store/todos-actions';
 import { useEffect, useState } from 'react';
 
 const EditTodo = (props) => {
     const dispatch = useDispatch();
     const { id } = useParams();
 
-    // useEffect(() => {
-    //     dispatch(getTodo(id));
-
-    //     //console.log("Get todo");
-    //   }, [dispatch]);
-
-    //   const todoItem = useSelector((state) => state.todos.todo);
-
-      //todoItem ? todoItem.todo.todo : ""
-
     const [enteredTodo, setEnteredTodo] = useState("");
     const [enteredCompleted, setEnteredCompleted] = useState(false);
 
     useEffect(() => {
         setEnteredTodo(localStorage.getItem('TODO'));
-        setEnteredCompleted(localStorage.getItem('COMPLETED'));
+
+        const completedValue = JSON.parse(localStorage.getItem('COMPLETED'));
+        setEnteredCompleted(completedValue);
     }, []);
 
     const todoChangeHandler = (event) => {
@@ -31,7 +22,9 @@ const EditTodo = (props) => {
       };
     
       const completedChangeHandler = (event) => {
-        setEnteredCompleted(event.target.checked);
+        //setEnteredCompleted(event.target.checked);
+
+        setEnteredCompleted(event.target.checked)
       };
 
     const deleteTodoHandler = () => {
@@ -50,9 +43,8 @@ const EditTodo = (props) => {
 
         console.log(todoData);
 
-        //dispatch(createTodo(todoData));
-    
-        //props.onSaveExpenseData(expenseData);
+        dispatch(updateTodo(todoData, id));
+        
         //setEnteredTodo('');
         // setEnteredCompleted(false);
       };
@@ -75,13 +67,23 @@ const EditTodo = (props) => {
                         checked={enteredCompleted}
                         onChange={completedChangeHandler}  id="completed"/>
                     <label className="form-check-label" htmlFor="completed">
-                        Default checkbox
+                        Completed
                     </label>
                 </div>
-                <button type="submit" className="btn btn-primary">Create</button>
+                <button type="submit" className="btn btn-primary">Update</button>
             </form>
         </div>
     );
 };
 
 export default EditTodo;
+
+// useEffect(() => {
+    //     dispatch(getTodo(id));
+
+    //     //console.log("Get todo");
+    //   }, [dispatch]);
+
+    //   const todoItem = useSelector((state) => state.todos.todo);
+
+      //todoItem ? todoItem.todo.todo : ""

@@ -123,40 +123,88 @@ export const deleteTodo = (id) => {
   };
 };
 
-export const getTodo = (id) => {
+export const updateTodo = (todoData, id) => {
   return async (dispatch) => {
-    const fetchData = async () => {
+
+    const sendRequest = async () => {
       const response = await fetch(
-        `http://127.0.0.1:3000/todos/${id}`
+        `http://127.0.0.1:3000/todos/${id}`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            { 
+              todo: todoData.todo,
+              completed: todoData.completed 
+          }),
+        }
       );
 
       if (!response.ok) {
-        throw new Error('Could not fetch todo!');
+        throw new Error('Created todo failed');
       }
-
-      const data = await response.json();
-
-      //console.log(data);
-
-      return data;
     };
 
     try {
-      const todoData = await fetchData();
+      await sendRequest();
+      console.log("Updated successfully");
+
+      localStorage.setItem('ID', id);
+      localStorage.setItem('TODO', todoData.todo);
+      localStorage.setItem('COMPLETED', todoData.completed);
+
       dispatch(
-        todosActions.getTodo({
-          todo: todoData || null,
+        fetchTodosData(),
+      );
+
+      dispatch(
+        uiActions.showNotification({
+          status: 'success',
+          title: 'Success',
+          message: 'Updated todo successfully',
         })
       );
     } catch (error) {
-      dispatch(
-        uiActions.showNotification({
-          status: 'error',
-          title: 'Error!',
-          message: 'Fetching todo failed!',
-        })
-      );
-    console.log(error);
+      console.log(error);
     }
   };
 };
+
+//Store todo in localStorage for getTodo
+// export const getTodo = (id) => {
+//   return async (dispatch) => {
+//     const fetchData = async () => {
+//       const response = await fetch(
+//         `http://127.0.0.1:3000/todos/${id}`
+//       );
+
+//       if (!response.ok) {
+//         throw new Error('Could not fetch todo!');
+//       }
+
+//       const data = await response.json();
+
+//       //console.log(data);
+
+//       return data;
+//     };
+
+//     try {
+//       const todoData = await fetchData();
+//       dispatch(
+//         todosActions.getTodo({
+//           todo: todoData || null,
+//         })
+//       );
+//     } catch (error) {
+//       dispatch(
+//         uiActions.showNotification({
+//           status: 'error',
+//           title: 'Error!',
+//           message: 'Fetching todo failed!',
+//         })
+//       );
+//     console.log(error);
+//     }
+//   };
+// };
